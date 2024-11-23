@@ -18,6 +18,23 @@ def read_cookbook(file_name):
             file.readline()  # Пропускаем пустую строку между блюдами
     return cook_book
 
+def get_shop_list_by_dishes(dishes, person_count):
+    shop_list = {}
+    for dish in dishes:
+        if dish in cook_book:
+            for ingredient in cook_book[dish]:
+                name = ingredient['ingredient_name']
+                quantity = ingredient['quantity'] * person_count
+                measure = ingredient['measure']
+
+                if name in shop_list:
+                    shop_list[name]['quantity'] += quantity
+                else:
+                    shop_list[name] = {'measure': measure, 'quantity': quantity}
+        else:
+            print(f"Блюдо '{dish}' не найдено в cook_book!")
+    return shop_list
+
 # Использование функции
 file_name = 'recipes.txt'  # Имя вашего файла
 cook_book = read_cookbook(file_name)
